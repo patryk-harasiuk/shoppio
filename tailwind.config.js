@@ -1,6 +1,4 @@
-import type { Config } from "tailwindcss";
-
-export const config: Config = {
+module.exports = {
 	content: [
 		"./src/pages/**/*.{js,ts,jsx,tsx,mdx}",
 		"./src/ui/**/*.{js,ts,jsx,tsx,mdx}",
