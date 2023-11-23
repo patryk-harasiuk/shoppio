@@ -1,4 +1,5 @@
 /* eslint-disable */
+import type { DocumentTypeDecoration } from '@graphql-typed-document-node/core';
 export type Maybe<T> = T | null;
 export type InputMaybe<T> = Maybe<T>;
 export type Exact<T extends { [key: string]: unknown }> = { [K in keyof T]: T[K] };
@@ -14,17 +15,15 @@ export type Scalars = {
   Int: { input: number; output: number; }
   Float: { input: number; output: number; }
   /** A date-time string at UTC, such as 2007-12-03T10:15:30Z, compliant with the `date-time` format outlined in section 5.6 of the RFC 3339 profile of the ISO 8601 standard for representation of dates and times using the Gregorian calendar. */
-  DateTime: { input: any; output: any; }
+  DateTime: { input: unknown; output: unknown; }
 };
 
 export type Category = {
-  __typename?: 'Category';
   id: Scalars['ID']['output'];
   name: Scalars['String']['output'];
 };
 
 export type Product = {
-  __typename?: 'Product';
   categories: Array<Maybe<Category>>;
   createdAt: Scalars['DateTime']['output'];
   description: Scalars['String']['output'];
@@ -36,7 +35,6 @@ export type Product = {
 };
 
 export type Query = {
-  __typename?: 'Query';
   categories: Array<Category>;
   product?: Maybe<Product>;
   products: Array<Product>;
@@ -52,3 +50,43 @@ export type QueryProductsArgs = {
   first: Scalars['Int']['input'];
   skip?: InputMaybe<Scalars['Int']['input']>;
 };
+
+export type ProductsQueryVariables = Exact<{
+  first: Scalars['Int']['input'];
+  skip?: InputMaybe<Scalars['Int']['input']>;
+}>;
+
+
+export type ProductsQuery = { products: Array<{ id: string, name: string, slug: string, description: string, price: number, createdAt: unknown, updatedAt: unknown, categories: Array<{ name: string } | null> }> };
+
+export class TypedDocumentString<TResult, TVariables>
+  extends String
+  implements DocumentTypeDecoration<TResult, TVariables>
+{
+  __apiType?: DocumentTypeDecoration<TResult, TVariables>['__apiType'];
+
+  constructor(private value: string, public __meta__?: Record<string, any>) {
+    super(value);
+  }
+
+  toString(): string & DocumentTypeDecoration<TResult, TVariables> {
+    return this.value;
+  }
+}
+
+export const ProductsDocument = new TypedDocumentString(`
+    query Products($first: Int!, $skip: Int) {
+  products(first: $first, skip: $skip) {
+    id
+    name
+    slug
+    description
+    price
+    createdAt
+    updatedAt
+    categories {
+      name
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<ProductsQuery, ProductsQueryVariables>;

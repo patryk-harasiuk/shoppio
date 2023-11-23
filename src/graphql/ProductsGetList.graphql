@@ -1,0 +1,14 @@
+query Products($first: Int!, $skip: Int) {
+	products(first: $first, skip: $skip) {
+		id
+		name
+		slug
+		description
+		price
+		createdAt
+		updatedAt
+		categories {
+			name
+		}
+	}
+}
