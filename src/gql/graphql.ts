@@ -66,6 +66,14 @@ export type ProductsQueryVariables = Exact<{
 
 export type ProductsQuery = { products: Array<{ id: string, name: string, slug: string, description: string, price: number, createdAt: unknown, updatedAt: unknown, categories: Array<{ name: string } | null> }> };
 
+export type ProductsIdsQueryVariables = Exact<{
+  first: Scalars['Int']['input'];
+  skip?: InputMaybe<Scalars['Int']['input']>;
+}>;
+
+
+export type ProductsIdsQuery = { products: Array<{ id: string }> };
+
 export class TypedDocumentString<TResult, TVariables>
   extends String
   implements DocumentTypeDecoration<TResult, TVariables>
@@ -113,3 +121,10 @@ export const ProductsDocument = new TypedDocumentString(`
   }
 }
     `) as unknown as TypedDocumentString<ProductsQuery, ProductsQueryVariables>;
+export const ProductsIdsDocument = new TypedDocumentString(`
+    query ProductsIds($first: Int!, $skip: Int) {
+  products(first: $first, skip: $skip) {
+    id
+  }
+}
+    `) as unknown as TypedDocumentString<ProductsIdsQuery, ProductsIdsQueryVariables>;

@@ -1,0 +1,5 @@
+query ProductsIds($first: Int!, $skip: Int) {
+	products(first: $first, skip: $skip) {
+		id
+	}
+}

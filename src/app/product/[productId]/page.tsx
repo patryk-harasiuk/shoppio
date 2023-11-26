@@ -1,10 +1,18 @@
 import { Suspense } from "react";
-import { getProductById } from "@/api/products";
+import { getProductById, getProductsIds } from "@/api/products";
 import { ProductListItemDescription } from "@/ui/atoms/ProductListItemDescription";
 import { SuggestedProductsList } from "@/ui/organisms/SuggestedProducts";
 
 type Props = {
 	params: { productId: string };
+};
+
+export const generateStaticParams = async () => {
+	const productsIds = await getProductsIds(10);
+
+	return productsIds.map(({ id }) => ({
+		productId: id,
+	}));
 };
 
 export default async function SingleProductPage({ params }: Props) {
@@ -18,7 +26,9 @@ export default async function SingleProductPage({ params }: Props) {
 				<ProductListItemDescription product={product} />
 			</article>
 			<aside>
-				<SuggestedProductsList />
+				<Suspense>
+					<SuggestedProductsList />
+				</Suspense>
 			</aside>
 		</>
 	);

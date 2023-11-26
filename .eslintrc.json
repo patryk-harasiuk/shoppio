@@ -79,5 +79,5 @@
 			}
 		}
 	],
-	"ignorePatterns": ["*.js", "*.jsx"]
+	"ignorePatterns": ["*.js", "*.jsx", "src/gql"]
 }
