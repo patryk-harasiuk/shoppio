@@ -1,5 +1,8 @@
-export default async function ProductsPage() {
-	// const res = await fetch('localhost:4000');
+import { getProductsList } from "@/api/products";
+import { ProductList } from "@/ui/organisms/ProductList";
 
-	return <div>test</div>;
+export default async function ProductsPage() {
+	const res = await getProductsList(10);
+
+	return <ProductList products={res} />;
 }

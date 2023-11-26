@@ -51,6 +51,13 @@ export type QueryProductsArgs = {
   skip?: InputMaybe<Scalars['Int']['input']>;
 };
 
+export type ProductQueryVariables = Exact<{
+  productId: Scalars['ID']['input'];
+}>;
+
+
+export type ProductQuery = { product?: { id: string, name: string, slug: string, description: string, price: number, createdAt: unknown, updatedAt: unknown, categories: Array<{ name: string } | null> } | null };
+
 export type ProductsQueryVariables = Exact<{
   first: Scalars['Int']['input'];
   skip?: InputMaybe<Scalars['Int']['input']>;
@@ -74,6 +81,22 @@ export class TypedDocumentString<TResult, TVariables>
   }
 }
 
+export const ProductDocument = new TypedDocumentString(`
+    query Product($productId: ID!) {
+  product(id: $productId) {
+    id
+    name
+    slug
+    description
+    price
+    createdAt
+    updatedAt
+    categories {
+      name
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<ProductQuery, ProductQueryVariables>;
 export const ProductsDocument = new TypedDocumentString(`
     query Products($first: Int!, $skip: Int) {
   products(first: $first, skip: $skip) {
