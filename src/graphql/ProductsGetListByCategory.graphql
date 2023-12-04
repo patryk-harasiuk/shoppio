@@ -1,5 +1,5 @@
 query ProductsByCategory($first: Int!, $category: String!, $skip: Int) {
 	productsByCategory(first: $first, category: $category, skip: $skip) {
-		...ProductListItemFragment
+		...ProductListItem
 	}
 }

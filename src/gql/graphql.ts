@@ -74,7 +74,7 @@ export type ProductsQueryVariables = Exact<{
 }>;
 
 
-export type ProductsQuery = { products: Array<{ name: string }> };
+export type ProductsQuery = { products: Array<{ id: string, name: string, slug: string, price: number, createdAt: unknown, updatedAt: unknown, categories: Array<{ name: string } | null> }> };
 
 export type ProductsByCategoryQueryVariables = Exact<{
   first: Scalars['Int']['input'];
@@ -83,7 +83,7 @@ export type ProductsByCategoryQueryVariables = Exact<{
 }>;
 
 
-export type ProductsByCategoryQuery = { productsByCategory: Array<{ name: string }> };
+export type ProductsByCategoryQuery = { productsByCategory: Array<{ id: string, name: string, slug: string, price: number, createdAt: unknown, updatedAt: unknown, categories: Array<{ name: string } | null> }> };
 
 export type ProductsIdsQueryVariables = Exact<{
   first: Scalars['Int']['input'];
@@ -139,17 +139,37 @@ export const ProductDocument = new TypedDocumentString(`
 export const ProductsDocument = new TypedDocumentString(`
     query Products($first: Int!, $skip: Int) {
   products(first: $first, skip: $skip) {
-    name
+    ...ProductListItem
   }
 }
-    `) as unknown as TypedDocumentString<ProductsQuery, ProductsQueryVariables>;
+    fragment ProductListItem on Product {
+  id
+  name
+  slug
+  price
+  createdAt
+  updatedAt
+  categories {
+    name
+  }
+}`) as unknown as TypedDocumentString<ProductsQuery, ProductsQueryVariables>;
 export const ProductsByCategoryDocument = new TypedDocumentString(`
     query ProductsByCategory($first: Int!, $category: String!, $skip: Int) {
   productsByCategory(first: $first, category: $category, skip: $skip) {
-    name
+    ...ProductListItem
   }
 }
-    `) as unknown as TypedDocumentString<ProductsByCategoryQuery, ProductsByCategoryQueryVariables>;
+    fragment ProductListItem on Product {
+  id
+  name
+  slug
+  price
+  createdAt
+  updatedAt
+  categories {
+    name
+  }
+}`) as unknown as TypedDocumentString<ProductsByCategoryQuery, ProductsByCategoryQueryVariables>;
 export const ProductsIdsDocument = new TypedDocumentString(`
     query ProductsIds($first: Int!, $skip: Int) {
   products(first: $first, skip: $skip) {

@@ -1,13 +1,13 @@
 import {
 	ProductDocument,
+	type ProductListItemFragment,
 	ProductsByCategoryDocument,
 	ProductsDocument,
 	ProductsIdsDocument,
 } from "@/gql/graphql";
-import type { ProductItemType } from "@/ui/types";
 import { executeGraphql } from "@/utils/executeGraphql";
 
-export const getProductById = async (id: ProductItemType["id"]) => {
+export const getProductById = async (id: ProductListItemFragment["id"]) => {
 	const response = await executeGraphql(ProductDocument, { productId: id });
 
 	return response.product;
