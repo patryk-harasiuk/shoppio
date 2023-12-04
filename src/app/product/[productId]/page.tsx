@@ -1,4 +1,5 @@
 import { Suspense } from "react";
+import { notFound } from "next/navigation";
 import { getProductById, getProductsIds } from "@/api/products";
 import { ProductListItemDescription } from "@/ui/atoms/ProductListItemDescription";
 import { SuggestedProductsList } from "@/ui/organisms/SuggestedProducts";
@@ -18,7 +19,7 @@ export const generateStaticParams = async () => {
 export default async function SingleProductPage({ params }: Props) {
 	const product = await getProductById(params.productId);
 
-	if (!product) return <div>No product found</div>;
+	if (!product) return notFound();
 
 	return (
 		<>

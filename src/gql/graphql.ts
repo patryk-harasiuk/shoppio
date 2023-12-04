@@ -38,6 +38,7 @@ export type Query = {
   categories: Array<Category>;
   product?: Maybe<Product>;
   products: Array<Product>;
+  productsByCategory: Array<Product>;
 };
 
 
@@ -51,6 +52,13 @@ export type QueryProductsArgs = {
   skip?: InputMaybe<Scalars['Int']['input']>;
 };
 
+
+export type QueryProductsByCategoryArgs = {
+  category: Scalars['String']['input'];
+  first: Scalars['Int']['input'];
+  skip?: InputMaybe<Scalars['Int']['input']>;
+};
+
 export type ProductQueryVariables = Exact<{
   productId: Scalars['ID']['input'];
 }>;
@@ -58,13 +66,24 @@ export type ProductQueryVariables = Exact<{
 
 export type ProductQuery = { product?: { id: string, name: string, slug: string, description: string, price: number, createdAt: unknown, updatedAt: unknown, categories: Array<{ name: string } | null> } | null };
 
+export type ProductListItemFragment = { id: string, name: string, slug: string, price: number, createdAt: unknown, updatedAt: unknown, categories: Array<{ name: string } | null> };
+
 export type ProductsQueryVariables = Exact<{
   first: Scalars['Int']['input'];
   skip?: InputMaybe<Scalars['Int']['input']>;
 }>;
 
 
-export type ProductsQuery = { products: Array<{ id: string, name: string, slug: string, description: string, price: number, createdAt: unknown, updatedAt: unknown, categories: Array<{ name: string } | null> }> };
+export type ProductsQuery = { products: Array<{ name: string }> };
+
+export type ProductsByCategoryQueryVariables = Exact<{
+  first: Scalars['Int']['input'];
+  category: Scalars['String']['input'];
+  skip?: InputMaybe<Scalars['Int']['input']>;
+}>;
+
+
+export type ProductsByCategoryQuery = { productsByCategory: Array<{ name: string }> };
 
 export type ProductsIdsQueryVariables = Exact<{
   first: Scalars['Int']['input'];
@@ -88,7 +107,19 @@ export class TypedDocumentString<TResult, TVariables>
     return this.value;
   }
 }
-
+export const ProductListItemFragmentDoc = new TypedDocumentString(`
+    fragment ProductListItem on Product {
+  id
+  name
+  slug
+  price
+  createdAt
+  updatedAt
+  categories {
+    name
+  }
+}
+    `, {"fragmentName":"ProductListItem"}) as unknown as TypedDocumentString<ProductListItemFragment, unknown>;
 export const ProductDocument = new TypedDocumentString(`
     query Product($productId: ID!) {
   product(id: $productId) {
@@ -108,19 +139,17 @@ export const ProductDocument = new TypedDocumentString(`
 export const ProductsDocument = new TypedDocumentString(`
     query Products($first: Int!, $skip: Int) {
   products(first: $first, skip: $skip) {
-    id
     name
-    slug
-    description
-    price
-    createdAt
-    updatedAt
-    categories {
-      name
-    }
   }
 }
     `) as unknown as TypedDocumentString<ProductsQuery, ProductsQueryVariables>;
+export const ProductsByCategoryDocument = new TypedDocumentString(`
+    query ProductsByCategory($first: Int!, $category: String!, $skip: Int) {
+  productsByCategory(first: $first, category: $category, skip: $skip) {
+    name
+  }
+}
+    `) as unknown as TypedDocumentString<ProductsByCategoryQuery, ProductsByCategoryQueryVariables>;
 export const ProductsIdsDocument = new TypedDocumentString(`
     query ProductsIds($first: Int!, $skip: Int) {
   products(first: $first, skip: $skip) {

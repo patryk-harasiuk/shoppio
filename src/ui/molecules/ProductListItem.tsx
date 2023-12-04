@@ -1,9 +1,9 @@
 import Link from "next/link";
-import { type ProductItemType } from "../types";
 import { ProductListItemDescription } from "@/ui/atoms/ProductListItemDescription";
+import { type ProductListItemFragment } from "@/gql/graphql";
 
 type Props = {
-	product: ProductItemType;
+	product: ProductListItemFragment;
 };
 
 export const ProductListItem = ({ product }: Props) => {
